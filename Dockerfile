@@ -18,8 +18,8 @@ RUN echo "OK" > /app/health/index.html
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
 COPY . . 
-# Expose port 8000
-EXPOSE 8000
+# Expose port 6002
+EXPOSE 6002
 
 # Add HEALTHCHECK (Kubernetes Liveness and Readiness)
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
