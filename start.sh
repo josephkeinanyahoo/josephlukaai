@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo "Starting Python HTTP server on port 5040..."
-exec python3 -m http.server 5040 --directory /app
+echo "Starting Python HTTP server on port 8000..."
+exec python3 -m http.server 8000 --directory /app
 
