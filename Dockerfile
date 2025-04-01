@@ -18,12 +18,12 @@ RUN echo "OK" > /app/health/index.html
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
 COPY . . 
-# Expose port 8080
-EXPOSE 8000
+# Expose port 5040
+EXPOSE 5040
 
 # Add HEALTHCHECK (Kubernetes Liveness and Readiness)
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/health/index.html || exit 1
+    CMD curl -f http://localhost:5040/health/index.html || exit 1
 
 # Start web server and keep the container running
 CMD ["/app/start.sh"]
