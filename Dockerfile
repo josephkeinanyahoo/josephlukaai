@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 bash curl
 
 # Create a test HTML file
-RUN echo '<html><body><h1>Hello from 2RBC-AI Container 2 from CSO</h1></body></html>' > /app/index.html
+RUN echo '<html><body><h1>Hello from 2RBC-AI Container 2 from CSO +1</h1></body></html>' > /app/index.html
 
 # Create a health check endpoint
 RUN mkdir -p /app/health
