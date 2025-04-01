@@ -1,4 +1,4 @@
-###### Use a lightweight Alpine-based image
+####### Use a lightweight Alpine-based image
 FROM alpine:3.14
 
 # Set the working directory
