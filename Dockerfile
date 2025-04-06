@@ -18,11 +18,11 @@ RUN echo "OK" > /app/health/index.html
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
 COPY . . 
-EXPOSE 6005
+EXPOSE 6007
 
 # Add HEALTHCHECK (Kubernetes Liveness and Readiness)
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:6005/health/index.html || exit 1
+    CMD curl -f http://localhost:6007/health/index.html || exit 1
 
 # Start web server and keep the container running
 CMD ["/app/start.sh"]
