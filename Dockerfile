@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 py3-pip bash curl gcc python3-dev musl-dev mariadb-connector-c-dev
 
 # Install pymysql for database connection
-RUN pip3 install pymysql cryptography
+RUN pip3 install pymysql cryptography==3.4.8
 
 # Create a test HTML file
 RUN echo '<html><body><h1>Hello Keren tsdokk  2RBC-AI- SingleRepo you have subscribe to PLAN A - Container 2 from CSO +2</h1></body></html>' > /app/index.html
