@@ -34,3 +34,6 @@ RUN chmod +x /app/start.sh
 COPY . .
 
 EXPOSE 6007
+
+# Set the startup command
+CMD ["/app/start.sh"]
