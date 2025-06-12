@@ -5,9 +5,14 @@ FROM alpine:3.14
 WORKDIR /app
 
 # Install required packages including pip and pymysql dependencies
-RUN apk add --no-cache python3 py3-pip bash curl gcc python3-dev musl-dev mariadb-connector-c-dev
+RUN apk add --no-cache \
+    python3 py3-pip bash curl \
+    gcc python3-dev musl-dev \
+    mariadb-connector-c-dev \
+    libffi-dev
 
-# Install pymysql for database connection
+# Upgrade pip and install Python packages
+RUN pip3 install --upgrade pip
 RUN pip3 install pymysql cryptography==3.4.8
 
 # Create a test HTML file
@@ -29,10 +34,3 @@ RUN chmod +x /app/start.sh
 COPY . .
 
 EXPOSE 6007
-
-# Add HEALTHCHECK (Kubernetes Liveness and Readiness)
-HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:6030/health/index.html || exit 1
-
-# Start web server and keep the container running
-CMD ["/app/start.sh"]
