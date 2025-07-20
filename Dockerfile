@@ -1,39 +1,31 @@
-# Use a lightweight Alpine-based image
-FROM alpine:3.14
+# Use a more recent Python slim image for smaller footprint and security
+FROM python:3.11-slim
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Install required packages including pip and pymysql dependencies
-RUN apk add --no-cache \
-    python3 py3-pip bash curl \
-    gcc python3-dev musl-dev \
-    mariadb-connector-c-dev \
-    libffi-dev
+# Install system dependencies for mysql-connector-python
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libc-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and install Python packages
-RUN pip3 install --upgrade pip
-RUN pip3 install pymysql cryptography==3.4.8
+# Copy requirements file first to leverage Docker cache
+COPY requirements.txt .
 
-# Create a test HTML file
-RUN echo '<html><body><h1>Hello Keren tsdokk  2RBC-AI- SingleRepo you have subscribe to PLAN A - Container 2 from CSO +2</h1></body></html>' > /app/index.html
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Create a health check endpoint
-RUN mkdir -p /app/health
-RUN echo "OK" > /app/health/index.html
+# Copy application code
+COPY main.py .
 
-# Copy the test script
-COPY test_vault_db.py /app/
-RUN chmod +x /app/test_vault_db.py
 
-# Copy a simple startup script
-COPY start.sh /app/
-RUN chmod +x /app/start.sh
-
-# Copy everything else
-COPY . .
-
+# Expose port for FastAPI
 EXPOSE 6007
 
-# Set the startup command
-CMD ["/app/start.sh"]
+# Healthcheck to monitor container health
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD curl -f http://localhost:6007/ || exit 1
+
+# Command to run FastAPI with uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "6007"]
