@@ -25,7 +25,6 @@ EXPOSE 6007
 
 # Healthcheck to monitor container health
 HEALTHCHECK --interval=30s --timeout=3s \
-    CMD curl -f http://localhost:6007/ || exit 1
-
+    CMD curl -f http://localhost:6007/health || exit 1
 # Command to run FastAPI with uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "6007"]
