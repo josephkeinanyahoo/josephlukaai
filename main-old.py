@@ -1,13 +1,8 @@
 from fastapi import FastAPI
 import mysql.connector
 from mysql.connector import Error
-import ssl # Although not directly used for context in this snippet, it's kept for completeness
+import ssl
 import uvicorn
-import logging
-
-# Configure logging to see messages in the console
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -21,16 +16,10 @@ db_config = {
     "ssl_ca": "/vault/secrets/tls-clients-ca",
 }
 
-@app.get("/")
-async def root():
-    """
-    Handles requests to the root path.
-    Attempts to connect to MySQL and create the 'users' table.
-    Logs database connection status and errors.
-    """
+@app.get("/create-table")
+async def create_table():
     connection = None
     try:
-        logger.info("Attempting to connect to MySQL database...")
         # Establish MySQL connection with SSL
         connection = mysql.connector.connect(
             host=db_config["host"],
@@ -41,12 +30,11 @@ async def root():
             ssl_ca=db_config["ssl_ca"],
             ssl_verify_cert=True
         )
-
+        
         if connection.is_connected():
-            logger.info("Successfully connected to MySQL database!")
             cursor = connection.cursor()
-
-            # Create a simple table if it doesn't exist
+            
+            # Create a simple table
             create_table_query = """
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -56,29 +44,25 @@ async def root():
             """
             cursor.execute(create_table_query)
             connection.commit()
-            logger.info("Table 'users' creation/check completed successfully.")
-            return {"message": "FastAPI MySQL Service - Table 'users' created/checked."}
-        else:
-            logger.warning("Failed to establish a connection to MySQL database.")
-            return {"message": "FastAPI MySQL Service - Could not connect to database."}
-
+            
+            return {"message": "Table 'users' created successfully"}
+            
     except Error as e:
-        logger.error(f"Error connecting to MySQL or creating table: {e}", exc_info=True)
-        return {"error": f"Error during database operation: {str(e)}"}
-
+        return {"error": f"Error connecting to MySQL: {str(e)}"}
+    
     finally:
         if connection and connection.is_connected():
             cursor.close()
             connection.close()
-            logger.info("MySQL connection closed.")
+            return {"message": "Table created and connection closed successfully"}
+
+@app.get("/")
+async def root():
+    return {"message": "FastAPI MySQL Service"}
 
 @app.get("/health")
 async def health_check():
-    """
-    Health check endpoint for container monitoring.
-    """
     return {"status": "ok"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=6007)
-
