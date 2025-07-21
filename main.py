@@ -34,7 +34,7 @@ HwYDVR0jBBgwFoAUTYK9il1YyPfriTbHYWfDQ/Q+EvYwQQYDVR0RBDowOIINbXlz
 cWwtY2xpZW50c4InbXlzcWwtY2xpZW50cy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxv
 Y2FsMAoGCCqGSM49BAMCA0gAMEUCIQDlbmHX+VftzstpfeoUCqFgnqzGl5dixGFE
 6xe8qQw7QwIgG1LL/Ylkk7xFqxcVVrGUvil5s7eJZDoj624LIoFPQnY=
------END CERTIFICATE-----""",
+-----END CERTIFICATE-----"""
 }
 
 @app.get("/")
@@ -55,7 +55,7 @@ async def root():
             password=db_config["password"],
             database=db_config["database"],
             ssl_ca=db_config["ssl_ca"],
-            ssl_verify_cert=True
+            ssl_verify_cert=False
         )
 
         if connection.is_connected():
