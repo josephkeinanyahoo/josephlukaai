@@ -18,23 +18,7 @@ db_config = {
     "user": "user_5a4cf2b226a78c56",
     "password": "e#jp6)HV0*HCCLC!@@7ccXZpnKU@s^zC",
     "database": "db_5a4cf2b226a78c56",
-    "ssl_ca": """-----BEGIN CERTIFICATE-----
-MIICxTCCAmugAwIBAgIQUg/BsdVJb7dvdOV14Hk8wTAKBggqhkjOPQQDAjAbMRkw
-FwYDVQQDExBteS1zZWxmc2lnbmVkLWNhMB4XDTI1MDYxMjEyNDU0OVoXDTI4MDYx
-MTEyNDU0OVowTDEYMBYGA1UEChMPTXkgT3JnYW5pemF0aW9uMTAwLgYDVQQDEydt
-eXNxbC1jbGllbnRzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwwggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDT28afZA8zZPxdUPyosvyeaiWuN39ZtzCp
-r/XGSeLcGGXm+WBCdCwVZgLZctmClOQaG9PNlEEZMluIZ2uqCgbwufVIB8ZZTT1O
-zmzHleT0nKrX2RF61PZhkXabBGiXEQ7cWmIFpPvTvtuM3HZnOXr8ELY0s23mwjdB
-FDj2gLzSKv9owz2tI/lbOOg5GsvryA4lTiNRhgfDAmMg66+q7hba2ajjMvLRUb4v
-5GfPs0a2RjsMVhDET1NcvUxxESSFG7mPkhZZGMLA76gxpu+OOKTD10moBQ7EKGdJ
-Ml38weAkJ+8LlTNro9Js1f0ArDKfOpClW2v6cbS4SCzjPgzv6qHFAgMBAAGjgZQw
-gZEwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAw
-HwYDVR0jBBgwFoAUTYK9il1YyPfriTbHYWfDQ/Q+EvYwQQYDVR0RBDowOIINbXlz
-cWwtY2xpZW50c4InbXlzcWwtY2xpZW50cy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxv
-Y2FsMAoGCCqGSM49BAMCA0gAMEUCIQDlbmHX+VftzstpfeoUCqFgnqzGl5dixGFE
-6xe8qQw7QwIgG1LL/Ylkk7xFqxcVVrGUvil5s7eJZDoj624LIoFPQnY=
------END CERTIFICATE-----"""
+    "ssl_ca":  "/vault/secrets/tls-clients-ca"
 }
 
 @app.get("/")
@@ -55,7 +39,7 @@ async def root():
             password=db_config["password"],
             database=db_config["database"],
             ssl_ca=db_config["ssl_ca"],
-            ssl_verify_cert=False
+            ssl_verify_cert=True
         )
 
         if connection.is_connected():
