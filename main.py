@@ -18,7 +18,7 @@ db_config = {
     "user": "user_5a4cf2b226a78c56",
     "password": "e#jp6)HV0*HCCLC!@@7ccXZpnKU@s^zC",
     "database": "db_5a4cf2b226a78c56",
-    "ssl_ca": "-----BEGIN CERTIFICATE-----
+    "ssl_ca": """-----BEGIN CERTIFICATE-----
 MIICxTCCAmugAwIBAgIQUg/BsdVJb7dvdOV14Hk8wTAKBggqhkjOPQQDAjAbMRkw
 FwYDVQQDExBteS1zZWxmc2lnbmVkLWNhMB4XDTI1MDYxMjEyNDU0OVoXDTI4MDYx
 MTEyNDU0OVowTDEYMBYGA1UEChMPTXkgT3JnYW5pemF0aW9uMTAwLgYDVQQDEydt
@@ -34,7 +34,7 @@ HwYDVR0jBBgwFoAUTYK9il1YyPfriTbHYWfDQ/Q+EvYwQQYDVR0RBDowOIINbXlz
 cWwtY2xpZW50c4InbXlzcWwtY2xpZW50cy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxv
 Y2FsMAoGCCqGSM49BAMCA0gAMEUCIQDlbmHX+VftzstpfeoUCqFgnqzGl5dixGFE
 6xe8qQw7QwIgG1LL/Ylkk7xFqxcVVrGUvil5s7eJZDoj624LIoFPQnY=
------END CERTIFICATE-----",
+-----END CERTIFICATE-----""",
 }
 
 @app.get("/")
